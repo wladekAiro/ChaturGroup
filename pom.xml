@@ -110,7 +110,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                     <mainClass>com.wladek.pension.Application</mainClass>
+                     <mainClass>com.wladek.realestate.Application</mainClass>
                 </configuration>
             </plugin>
             <!--<plugin>-->

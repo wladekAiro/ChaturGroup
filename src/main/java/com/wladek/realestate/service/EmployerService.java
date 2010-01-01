@@ -1,0 +1,19 @@
+package com.wladek.realestate.service;
+
+import com.wladek.realestate.domain.realestate.Employee;
+import com.wladek.realestate.domain.realestate.Employer;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
+/**
+ * Created by wladek on 1/13/16.
+ */
+public interface EmployerService {
+    public Employer create(Employer employer);
+    public Employer findOne(Long id);
+    public List<Employer> findAll();
+    public boolean delete(Long id);
+    public Employer update(Employer employer);
+    public Page<Employee> getAllEmployees(Employer employer , int page , int size);
+}
