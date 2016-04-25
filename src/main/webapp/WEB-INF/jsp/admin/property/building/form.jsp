@@ -30,8 +30,8 @@
   </div>
   <div class="box-body">
     <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
-      <h1 class="page-header">Company Form</h1>
-      <form:form acceptCharset="UTF-8" action="/admin/property/newProperty/${action}" method="post" modelAttribute="property" cssClass="form-horizontal" role="form">
+      <h1 class="page-header">Building Form</h1>
+      <form:form acceptCharset="UTF-8" action="/admin/property/building/${action}" method="post" modelAttribute="property" cssClass="form-horizontal" role="form">
         <div class="form-group">
           <label for="name" class="col-sm-2 control-label">Company Name</label>
           <div class="col-sm-6">

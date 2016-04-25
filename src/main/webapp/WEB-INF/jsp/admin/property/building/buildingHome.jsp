@@ -107,7 +107,7 @@
                                                                         <td>${building.name}</td>
                                                                         <td>floors</td>
                                                                         <td>
-                                                                            <a href="/admin/building/home/${building.id}">Show</a>
+                                                                            <a href="/admin/building/${building.id}">Show</a>
                                                                         </td>
                                                                         <td></td>
                                                                     </tr>

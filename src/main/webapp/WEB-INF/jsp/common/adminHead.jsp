@@ -299,25 +299,16 @@
             </li>
 
             <li>
-                <a href="/admin/users"><i class="fa fa-files-o"></i> <span>Manage Users</span></a>
+                <a href="/admin/users"><i class="fa fa-files-o"></i> <span>User Management</span></a>
             </li>
 
             <li>
-                <a href="/admin/roles/home"><i class="fa fa-files-o"></i> <span>Roles</span></a>
-            </li>
-
-            <li>
-                <a href="/admin/pension/employers"><i class="fa fa-files-o"></i> <span>Manage employers</span></a>
+                <a href="/admin/property/home"><i class="fa fa-files-o"></i> <span>Property Management</span></a>
             </li>
 
             <li>
                 <a href="#"><i class="fa fa-files-o"></i> <span>Manage Funds</span></a>
             </li>
-
-            <li>
-                <a href="/admin/pension/investment"><i class="fa fa-files-o"></i> <span>Manage Investments</span></a>
-            </li>
-
         </ul>
     </section>
     <!-- /.sidebar -->
