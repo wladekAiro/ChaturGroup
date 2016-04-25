@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/admin/pension")
-public class AssetController {
+public class PropertyController {
 
     @Autowired
     EmployeeValidator employeeValidator;
