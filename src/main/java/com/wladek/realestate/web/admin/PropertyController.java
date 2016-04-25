@@ -1,7 +1,11 @@
 package com.wladek.realestate.web.admin;
 
+import com.wladek.realestate.domain.Building;
+import com.wladek.realestate.domain.Property;
 import com.wladek.realestate.domain.realestate.Assets;
 import com.wladek.realestate.service.AssetService;
+import com.wladek.realestate.service.property.BuildingService;
+import com.wladek.realestate.service.property.PropertyService;
 import com.wladek.realestate.web.front.support.EmployeeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,75 +22,104 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping(value = "/admin/pension")
+@RequestMapping(value = "/admin/property")
 public class PropertyController {
 
     @Autowired
     EmployeeValidator employeeValidator;
-
     @Autowired
-    AssetService assetService;
+    PropertyService propertyService;
+    @Autowired
+    private BuildingService buildingService;
 
-    @RequestMapping(value = "/investmentForm", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/propertyForm", method = RequestMethod.GET)
     public String employerForm(Model model) {
-        model.addAttribute("investment", new Assets());
+        model.addAttribute("property", new Property());
         model.addAttribute("action" , "CREATE");
-        return "/admin/realestate/investment/investmentForm";
+        return "/admin/property/propertyForm";
     }
 
-    @RequestMapping(value = "/newInvestment/{action}", method = RequestMethod.POST)
-    public String newUser(@ModelAttribute @Valid Assets assets, BindingResult result ,
+    @RequestMapping(value = "/newProperty/{action}", method = RequestMethod.POST)
+    public String newUser(@ModelAttribute @Valid Property property, BindingResult result ,
                           @PathVariable("action") String action , Model model) {
         String path = "Failed";
 
         if(action.equals("CREATE")){
             if(result.hasErrors()) {
-                model.addAttribute("investment", assets);
-                return "/admin/realestate/investment/investmentForm";
+                model.addAttribute("property", property);
+                return "/admin/property/propertyForm";
             }
-            Assets newAsset = assetService.create(assets);
-            return "redirect:/admin/realestate/investment";
+            Property newProperty = propertyService.create(property);
+
+            return "redirect:/admin/property/home";
         }
 
         if (action.equals("EDIT")){
             if(result.hasErrors()) {
-                model.addAttribute("investment", assets);
-                return "/admin/realestate/investment/investmentForm";
+                model.addAttribute("property", property);
+                return "/admin/property/propertyForm";
             }
-            Assets editedAsset = assetService.edit(assets);
-            return "redirect:/admin/realestate/investment/"+editedAsset.getId();
+            Property editedProperty = propertyService.update(property);
+            return "redirect:/admin/property/"+editedProperty.getId();
         }
 
         return path;
     }
 
-    @RequestMapping(value = "/investment" , method = RequestMethod.GET)
-    public String getAssets(Model model){
-        List<Assets> assets = assetService.findAll();
+    @RequestMapping(value = "/home" , method = RequestMethod.GET)
+    public String getAssets(@RequestParam(value = "company" , required = false , defaultValue = "0") int company ,Model model){
+        List<Property>  propertyList = propertyService.findAll();
+        Property selectedProperty = null;
 
-        model.addAttribute("investments", assets);
-        return "/admin/realestate/investment/investmentList";
+        if (company != 0){
+            selectedProperty = propertyService.findOne(new Long(company));
+        }
+
+        model.addAttribute("building" , new Building());
+        model.addAttribute("action" , "CREATE");
+        model.addAttribute("selectedProperty" , selectedProperty);
+        model.addAttribute("propertyList", propertyList);
+        return "/admin/property/propertyList";
     }
 
-    @RequestMapping(value = "/investment/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getInvestment(@PathVariable("id") Long id, Model model){
-        Assets investment = assetService.findOne(id);
-        model.addAttribute("investment" , investment);
-        return "/admin/realestate/investment/show";
+        Property property = propertyService.findOne(id);
+        model.addAttribute("property" , property);
+        return "/admin/property/show";
     }
 
-    @RequestMapping( value = "/investment/{id}/edit", method = RequestMethod.GET)
+    @RequestMapping( value = "/{id}/edit", method = RequestMethod.GET)
     public String editInvestment(@PathVariable("id") Long id, Model model){
-        Assets investment = assetService.findOne(id);
-        model.addAttribute("investment" , investment);
+        Property property = propertyService.findOne(id);
+        model.addAttribute("property" , property);
         model.addAttribute("action" , "EDIT");
-        return  "/admin/realestate/investment/investmentForm";
+        return  "/admin/property/propertyForm";
     }
 
-    @RequestMapping( value = "/investment/{id}/delete", method = RequestMethod.GET)
+    @RequestMapping( value = "/property/{id}/delete", method = RequestMethod.GET)
     public String deleteEmployer(@PathVariable("id") Long id , RedirectAttributes redirectAttributes){
-        boolean message = assetService.delete(id);
+        boolean message = propertyService.delete(id);
         redirectAttributes.addFlashAttribute("message" , message);
-        return "redirect:/admin/realestate/investment";
+        return "redirect:/admin/property/home";
+    }
+
+    @RequestMapping( value = "/building/{action}", method = RequestMethod.POST)
+    public String buildingForm(@ModelAttribute @Valid Building building, BindingResult result ,
+                               RedirectAttributes redirectAttributes, @PathVariable("action") String action , Model model){
+
+        if(action.equals("CREATE")){
+            if(result.hasErrors()) {
+                model.addAttribute("building", building);
+                return "redirect:/admin/property/home?company="+building.getPropertyId();
+            }
+
+            Building newBuilding = buildingService.create(building);
+            redirectAttributes.addFlashAttribute("result" , true);
+            return "redirect:/admin/property/home?company="+building.getPropertyId();
+        }
+
+        return "redirect:/admin/property/home";
     }
 }

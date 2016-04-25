@@ -1,8 +1,9 @@
 package com.wladek.realestate.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by wladek on 1/1/10.
@@ -13,9 +14,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "property")
 public class Property extends AbstractModel {
+    @NotEmpty(message = "Provide company name")
     private String name;
     @Column(columnDefinition = "text")
+    @NotEmpty(message = "Provide a brief description")
     private String description;
+
+    @OneToMany(mappedBy = "property",fetch = FetchType.LAZY , cascade = CascadeType.REMOVE)
+    private Set<Building> buildings;
 
     public String getName() {
         return name;
@@ -31,5 +37,13 @@ public class Property extends AbstractModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void setBuildings(Set<Building> buildings) {
+        this.buildings = buildings;
     }
 }

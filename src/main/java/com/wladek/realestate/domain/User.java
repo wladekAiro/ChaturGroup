@@ -68,7 +68,7 @@ public class User extends AbstractModel{
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private List<FeedBack> feedBacks;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public String getName() {
