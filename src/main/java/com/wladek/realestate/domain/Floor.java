@@ -1,5 +1,7 @@
 package com.wladek.realestate.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,7 +10,9 @@ import java.util.Set;
  */
 @Entity
 public class Floor extends AbstractModel {
+    @NotEmpty(message = "Please provide floor number/name")
     private String number;
+    @NotEmpty(message = "Please provide floor description")
     @Column(columnDefinition = "text")
     private String description;
 
@@ -48,5 +52,16 @@ public class Floor extends AbstractModel {
 
     public void setShops(Set<Shop> shops) {
         this.shops = shops;
+    }
+
+    @Transient
+    private Long buildingId;
+
+    public Long getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(Long buildingId) {
+        this.buildingId = buildingId;
     }
 }
