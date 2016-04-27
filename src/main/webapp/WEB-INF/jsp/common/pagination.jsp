@@ -25,7 +25,7 @@
 
 
   <%-- the pagination --%>
-  <div class="col m12">
+  <div class="col-sm-12">
       <ul class="pagination">
 
         <%-- check if number of pages is more than one--%>

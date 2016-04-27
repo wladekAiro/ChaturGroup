@@ -8,6 +8,7 @@ import com.wladek.realestate.service.property.FloorService;
 import com.wladek.realestate.service.property.PropertyService;
 import com.wladek.realestate.web.front.support.EmployeeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,8 +30,14 @@ public class BuildingController {
 
     @RequestMapping(value = "/home/{id}" , method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id , @RequestParam(value = "form" , required = false , defaultValue = "false") boolean form ,
+                       @RequestParam(value = "page" , required = false , defaultValue = "1") int page,
+                       @RequestParam(value = "size" , required = false , defaultValue = "10") int size,
                        Model model){
         Building building = buildingService.findOne(id);
+        Page<Floor> floorPage = floorService.findByBuilding(building , page ,size);
+
+        model.addAttribute("floorPage" , floorPage);
+        model.addAttribute("pagenatedUrl" , "/admin/building/home/"+id);
         model.addAttribute("building" , building);
 
         if (form){

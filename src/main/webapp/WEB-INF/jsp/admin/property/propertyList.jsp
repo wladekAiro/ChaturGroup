@@ -34,8 +34,10 @@
         <div class="row">
             <c:if test="${message}">
                 <div class="row">
-                    <div class="alert alert-success">
-                        Deleted ....
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="alert alert-success">
+                                ${content}
+                        </div>
                     </div>
                 </div>
             </c:if>

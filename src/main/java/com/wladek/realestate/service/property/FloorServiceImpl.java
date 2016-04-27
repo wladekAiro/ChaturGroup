@@ -1,8 +1,11 @@
 package com.wladek.realestate.service.property;
 
+import com.wladek.realestate.domain.Building;
 import com.wladek.realestate.domain.Floor;
 import com.wladek.realestate.repository.FloorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +43,12 @@ public class FloorServiceImpl implements FloorService{
         floorInDb.setDescription(floor.getDescription());
 
         return floorRepo.save(floorInDb);
+    }
+
+    @Override
+    public Page<Floor> findByBuilding(Building building, int page, int size) {
+        page = page -1;
+        PageRequest pageRequest = new PageRequest(page , size);
+        return floorRepo.findByBuilding(building , pageRequest);
     }
 }
