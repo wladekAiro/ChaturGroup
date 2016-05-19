@@ -38,19 +38,20 @@ public class User extends AbstractModel{
 
     public static final String LOGIN_ID_PATTERN = "^[a-zA-Z0-9-]+([_.][a-zA-Z0-9-]+)*$";
 
+    @NotEmpty(message = "Provide name")
     private String name;
 
     @Column(unique = true, nullable = false)
-    @NotEmpty
-    @Pattern(regexp = LOGIN_ID_PATTERN, message = "user.wrongloginId.alert")
+    @NotEmpty(message = "Provide a user name")
+    @Pattern(regexp = LOGIN_ID_PATTERN, message = "Provide a valid username")
     private String loginId;
 
     @Column(nullable = false)
-    @NotEmpty
     private String password;
 
     @Column(unique = true)
-    @Email
+    @Email(message = "Provide a valid email")
+    @NotEmpty(message = "Provide an email address")
     private String email;
 
     private String lang;

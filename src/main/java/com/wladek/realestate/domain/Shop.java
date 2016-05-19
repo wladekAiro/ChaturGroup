@@ -1,21 +1,24 @@
 package com.wladek.realestate.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
 
 /**
  * Created by wladek on 1/1/10.
  */
 @Entity
 public class Shop extends AbstractModel {
+    @NotEmpty(message = "Provide room number")
     private String number;
     @Column(columnDefinition = "text")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Floor floor;
+
+    @Transient
+    private Long floorId;
 
     @ManyToOne
     private Tenant tenant;
@@ -50,5 +53,13 @@ public class Shop extends AbstractModel {
 
     public void setTenant(Tenant tenant) {
         this.tenant = tenant;
+    }
+
+    public Long getFloorId() {
+        return floorId;
+    }
+
+    public void setFloorId(Long floorId) {
+        this.floorId = floorId;
     }
 }

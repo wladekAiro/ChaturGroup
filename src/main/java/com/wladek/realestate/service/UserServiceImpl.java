@@ -28,10 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addNewUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setUserState(UserState.ACTIVE);
-        User newUser = repository.save(user);
-        return newUser;
+        user.setPassword("pass");
+        return register(user);
     }
 
     @Override
@@ -44,5 +42,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    public User register(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserState(UserState.ACTIVE);
+        User newUser = repository.save(user);
+        return newUser;
     }
 }

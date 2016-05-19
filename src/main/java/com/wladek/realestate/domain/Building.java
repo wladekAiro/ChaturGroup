@@ -1,5 +1,7 @@
 package com.wladek.realestate.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,8 +10,11 @@ import java.util.Set;
  */
 @Entity
 public class Building extends AbstractModel{
+    @NotEmpty(message = "Provide name")
     private String name;
+    @NotEmpty(message = "Provide location")
     private String location;
+    @NotEmpty(message = "Provide address")
     private String address;
 
     @Transient

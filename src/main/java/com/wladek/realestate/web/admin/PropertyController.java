@@ -112,7 +112,7 @@ public class PropertyController {
         if(action.equals("CREATE")){
             if(result.hasErrors()) {
                 model.addAttribute("building", building);
-                return "redirect:/admin/property/home?company="+building.getPropertyId();
+                return "/admin/property/home?company="+building.getPropertyId();
             }
 
             Building newBuilding = buildingService.create(building);

@@ -2,7 +2,9 @@ package com.wladek.realestate.service.property;
 
 import com.wladek.realestate.domain.Building;
 import com.wladek.realestate.domain.Floor;
+import com.wladek.realestate.domain.Shop;
 import com.wladek.realestate.repository.FloorRepo;
+import com.wladek.realestate.repository.ShopRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import java.util.List;
 public class FloorServiceImpl implements FloorService{
     @Autowired private FloorRepo floorRepo;
     @Autowired private BuildingService buildingService;
+    @Autowired private ShopRepo shopRepo;
 
     @Override
     public Floor create(Floor floor) {
@@ -50,5 +53,11 @@ public class FloorServiceImpl implements FloorService{
         page = page -1;
         PageRequest pageRequest = new PageRequest(page , size);
         return floorRepo.findByBuilding(building , pageRequest);
+    }
+
+    @Override
+    public Shop addShop(Shop shop) {
+        shop.setFloor(findOne(shop.getFloorId()));
+        return shopRepo.save(shop);
     }
 }

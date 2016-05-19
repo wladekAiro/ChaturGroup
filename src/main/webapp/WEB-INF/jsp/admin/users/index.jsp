@@ -17,48 +17,237 @@
 <%--body--%>
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">MANAGE USERS</h3>
+        <h3 class="box-title">USER MANAGEMENT</h3>
         <div class="box-tools">
-            <%--<div class="input-group">--%>
-                <%--<input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>--%>
-                <%--<div class="input-group-btn">--%>
-                    <%--<button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>--%>
-                <%--</div>--%>
-            <%--</div>--%>
+            <div class="input-group">
+                <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
         </div>
     </div><!-- /.box-header -->
-    <div class="box-body table-responsive no-padding">
-        <div class="table-responsive">
-            <c:choose>
-                <c:when test="${empty users}">
-                    <h5>No users available</h5>
-                </c:when>
-                <c:otherwise>
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>User Name</th>
-                            <th>User Email</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <c:forEach items="${users}" var="user">
-                            <tbody>
-                            <td>${user.name}</td>
-                            <td>${user.email}</td>
-                            <td>
-                                <a href="#">Show</a>
-                            </td>
-                            <td></td>
-                            </tbody>
-                        </c:forEach>
-                    </table>
-                </c:otherwise>
-            </c:choose>
-        </div>
+    <div class="box-body">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-tools">
+                        <a type="button" class="btn btn-primary btn-sm" href="/admin/users">
+                            Users
+                        </a>
+                        &nbsp;&nbsp;
+                        <a type="button" class="btn btn-primary btn-sm" href="/admin/users?roles=true">
+                            Roles
+                        </a>
+                    </div>
+
+                    <c:if test="${message}">
+                        <div class="alert alert-success">
+                                ${content}
+                        </div>
+                    </c:if>
+                </div>
+                <div class="box-body">
+                    <div class="col-sm-6">
+                        <c:choose>
+                            <c:when test="${roles}">
+                                <h3>Roles</h3>
+                                <div class="table-responsive">
+                                    <c:choose>
+                                        <c:when test="${empty roleList}">
+                                            <div class="alert alert-war">
+                                                No Roles created
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <table class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Description</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach items="${roleList}" var="role">
+                                                    <tr>
+                                                        <td>${role.name}</td>
+                                                        <td>${role.description}</td>
+                                                        <td>
+                                                            <a href="#">Show</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#">Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <h3>Users</h3>
+                                <div class="table-responsive">
+                                    <c:choose>
+                                        <c:when test="${empty users}">
+                                            <div class="alert alert-war">
+                                                No Users registered
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <table class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>User name</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach items="${users}" var="user">
+                                                    <tr>
+                                                        <td>${user.name}</td>
+                                                        <td>${user.email}</td>
+                                                        <td>${user.loginId}</td>
+                                                        <td>
+                                                            <a href="#">Show</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#">Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <div class="col-sm-3">
+                        <div style="margin-top: 50px">
+                            <div class="box-body">
+                                <c:choose>
+                                    <c:when test="${roles}">
+                                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">
+                                            New Role
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">
+                                            New User
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 </div>
+
+<%--modal--%>
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <c:choose>
+            <c:when test="${roles}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Role Form</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box">
+                            <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+                                <form:form acceptCharset="UTF-8" action="/admin/users/createRole" method="post" modelAttribute="role" cssClass="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="name" class="col-sm-3 control-label">Name</label>
+                                        <div class="col-sm-9">
+                                            <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Role Name" />
+                                            <form:input path="id" id="id" type="hidden"/>
+                                            <form:errors path="name" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address" class="col-sm-3 control-label">Description</label>
+                                        <div class="col-sm-9">
+                                            <form:textarea path="description" id="address" cssClass="form-control" placeholder="Describe role"></form:textarea>
+                                            <form:errors path="description" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-10">
+                                            <input class="btn btn-success" type="submit" value="Submit">
+                                        </div>
+                                    </div>
+                                </form:form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">User Form</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="box">
+                            <div class="col-sm-9 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+                                <form:form acceptCharset="UTF-8" action="/admin/users/createUser" method="post" modelAttribute="user" cssClass="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="name" class="col-sm-3 control-label">Name </label>
+                                        <div class="col-sm-9">
+                                            <form:input path="name" id="name" type="text" cssClass="form-control" placeholder="Full Name" />
+                                            <form:input path="id" id="id" type="hidden"/>
+                                            <form:errors path="name" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="loginId" class="col-sm-3 control-label">User Name</label>
+                                        <div class="col-sm-9">
+                                            <form:input path="loginId" id="loginId" type="text" cssClass="form-control" placeholder="User Name" />
+                                            <form:input path="id" id="id" type="hidden"/>
+                                            <form:errors path="loginId" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="col-sm-3 control-label">Email</label>
+                                        <div class="col-sm-9">
+                                            <form:input path="email" id="address" cssClass="form-control" type="text" placeholder="Email address" />
+                                            <form:errors path="email" cssClass="form-inline" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-10">
+                                            <input class="btn btn-success" type="submit" value="Submit">
+                                        </div>
+                                    </div>
+                                </form:form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+<%--end modal--%>
 <%--end body--%>
 <!-- start of footer section -->
 
